@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260212-2" />
+  <link rel="stylesheet" href="style.css?v=20260212-3" />
 </head>
 <body>
   <div class="bg-glow bg-glow-1"></div>
@@ -67,7 +67,7 @@
       </div>
 
       <div id="race" class="tab-panel" role="tabpanel" hidden>
-        <p class="panel-note">Pick race distance and calculate either required pace or finish time.</p>
+        <p class="panel-note">Build your race strategy with one of the two planning modes.</p>
 
         <div class="field">
           <label for="race-distance-km">Race distance (km)</label>
@@ -93,7 +93,9 @@
           </select>
         </div>
 
-        <div id="goal-time-group" class="pace-group">
+        <p id="race-mode-note" class="mode-note">Enter your target finish time and see the pace you need.</p>
+
+        <div id="goal-time-group" class="race-mode-panel pace-group">
           <div class="field">
             <label for="goal-hours">Goal time (hours)</label>
             <input id="goal-hours" type="text" inputmode="numeric" value="0" />
@@ -108,7 +110,7 @@
           </div>
         </div>
 
-        <div id="target-pace-group" class="pace-group" hidden>
+        <div id="target-pace-group" class="race-mode-panel pace-group" hidden>
           <div class="field">
             <label for="target-pace-minutes">Pace min/km (minutes)</label>
             <input id="target-pace-minutes" type="text" inputmode="numeric" value="5" />
@@ -128,6 +130,6 @@
     </section>
   </main>
 
-  <script src="script.js?v=20260212-2"></script>
+  <script src="script.js?v=20260212-3"></script>
 </body>
 </html>

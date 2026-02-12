@@ -24,6 +24,7 @@ const targetPaceMinutesInput = document.getElementById('target-pace-minutes');
 const targetPaceSecondsInput = document.getElementById('target-pace-seconds');
 const raceOutput = document.getElementById('race-output');
 const raceOutputDetail = document.getElementById('race-output-detail');
+const raceModeNote = document.getElementById('race-mode-note');
 
 tabs.forEach((tab) => {
   tab.addEventListener('click', () => {
@@ -107,6 +108,10 @@ function updateRaceMode() {
   const isGoalToPace = raceModeInput.value === 'goal-to-pace';
   goalTimeGroup.hidden = !isGoalToPace;
   targetPaceGroup.hidden = isGoalToPace;
+
+  raceModeNote.textContent = isGoalToPace
+    ? 'Enter your target finish time and see the pace you need.'
+    : 'Enter your target pace and estimate the final race time.';
   updateRacePlanner();
 }
 
