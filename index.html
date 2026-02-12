@@ -3,195 +3,212 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RunLab Calculator</title>
+  <title>RunLab Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260212-5" />
+  <link rel="stylesheet" href="style.css?v=20260212-6" />
 </head>
 <body>
-  <div class="bg-glow bg-glow-1"></div>
-  <div class="bg-glow bg-glow-2"></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">RL</div>
+      <nav class="side-nav" aria-label="Sidebar">
+        <button class="side-btn active" type="button">Run</button>
+        <button class="side-btn" type="button">Plan</button>
+        <button class="side-btn" type="button">Stats</button>
+      </nav>
+      <div class="side-user">AD</div>
+    </aside>
 
-  <main class="app">
-    <header class="hero">
-      <p class="kicker">running toolkit</p>
-      <h1>RunLab Calculator</h1>
-      <p>Convert speed and estimate split times in one clean interface.</p>
-    </header>
-
-    <section class="panel">
-      <div class="tabs" role="tablist" aria-label="Calculator tabs">
-        <button class="tab active" data-tab="converter" role="tab" aria-selected="true">Speed Converter</button>
-        <button class="tab" data-tab="distance" role="tab" aria-selected="false">Distance Time</button>
-        <button class="tab" data-tab="race" role="tab" aria-selected="false">Race Planner</button>
-        <button class="tab" data-tab="track" role="tab" aria-selected="false">400m Track</button>
-      </div>
-
-      <div id="converter" class="tab-panel active" role="tabpanel">
-        <p class="panel-note">Enter only your speed and get instant pace conversion.</p>
-        <div class="field">
-          <label for="speed-input">Speed (km/h)</label>
-          <input id="speed-input" type="text" inputmode="decimal" value="10" />
+    <div class="main-area">
+      <header class="topbar">
+        <div class="title-wrap">
+          <p class="kicker">running toolkit</p>
+          <h1>RunLab Dashboard</h1>
         </div>
+        <nav class="top-nav" aria-label="Primary">
+          <a href="#" class="top-link active">Dashboard</a>
+          <a href="#" class="top-link">Metrics</a>
+          <a href="#" class="top-link">Activity</a>
+          <a href="#" class="top-link">Calendar</a>
+        </nav>
+      </header>
 
-        <div class="result-card">
-          <p class="result-label">Converted pace</p>
-          <p id="pace-output" class="result-value">6:00 min/km</p>
-        </div>
-      </div>
-
-      <div id="distance" class="tab-panel" role="tabpanel" hidden>
-        <p class="panel-note">Pick distance and pace, then get your target finish time.</p>
-        <div class="field">
-          <label for="distance-range">Distance (meters): <span id="distance-value">330</span>m</label>
-          <input id="distance-range" type="range" min="0" max="1000" step="10" value="330" />
-          <input id="distance-input" type="text" inputmode="numeric" value="330" />
-        </div>
-
-        <div class="pace-group">
-          <div class="field">
-            <label for="pace-minutes">Pace min/km (minutes)</label>
-            <input id="pace-minutes" type="text" inputmode="numeric" value="4" />
+      <main class="content">
+        <section class="panel" data-theme="converter">
+          <div class="tabs" role="tablist" aria-label="Calculator tabs">
+            <button class="tab active" data-tab="converter" role="tab" aria-selected="true">Speed Converter</button>
+            <button class="tab" data-tab="distance" role="tab" aria-selected="false">Distance Time</button>
+            <button class="tab" data-tab="race" role="tab" aria-selected="false">Race Planner</button>
+            <button class="tab" data-tab="track" role="tab" aria-selected="false">400m Track</button>
           </div>
-          <div class="field">
-            <label for="pace-seconds">Pace min/km (seconds)</label>
-            <input id="pace-seconds" type="text" inputmode="numeric" value="0" />
+
+          <div id="converter" class="tab-panel active" role="tabpanel">
+            <div class="card">
+              <p class="panel-note">Enter only your speed and get instant pace conversion.</p>
+              <div class="field">
+                <label for="speed-input">Speed (km/h)</label>
+                <input id="speed-input" type="text" inputmode="decimal" value="10" />
+              </div>
+            </div>
+            <div class="card result-card">
+              <p class="result-label">Converted pace</p>
+              <p id="pace-output" class="result-value">6:00 min/km</p>
+            </div>
           </div>
-        </div>
 
-        <div class="result-card">
-          <p class="result-label">Estimated time</p>
-          <p id="time-output" class="result-value">1:19</p>
-          <p id="time-output-detail" class="result-detail">Distance and pace summary appears here.</p>
-        </div>
-      </div>
-
-      <div id="race" class="tab-panel" role="tabpanel" hidden>
-        <p class="panel-note">Build your race strategy with one of the two planning modes.</p>
-
-        <div class="field">
-          <label for="race-distance-km">Race distance (km)</label>
-          <input id="race-distance-km" type="text" inputmode="decimal" value="5" list="race-presets" />
-          <datalist id="race-presets">
-            <option value="1"></option>
-            <option value="3"></option>
-            <option value="4"></option>
-            <option value="5"></option>
-            <option value="6"></option>
-            <option value="10"></option>
-            <option value="15"></option>
-            <option value="21.1"></option>
-            <option value="42.2"></option>
-          </datalist>
-        </div>
-
-        <div class="field">
-          <label for="race-mode">Calculation mode</label>
-          <select id="race-mode">
-            <option value="goal-to-pace">Goal time -> required pace</option>
-            <option value="pace-to-goal">Desired pace -> estimated goal time</option>
-          </select>
-        </div>
-
-        <p id="race-mode-note" class="mode-note">Enter your target finish time and see the pace you need.</p>
-
-        <div id="goal-time-group" class="race-mode-panel pace-group">
-          <div class="field">
-            <label for="goal-hours">Goal time (hours)</label>
-            <input id="goal-hours" type="text" inputmode="numeric" value="0" />
+          <div id="distance" class="tab-panel" role="tabpanel" hidden>
+            <div class="card">
+              <p class="panel-note">Pick distance and pace, then get your target finish time.</p>
+              <div class="field">
+                <label for="distance-range">Distance (meters): <span id="distance-value">330</span>m</label>
+                <input id="distance-range" type="range" min="0" max="1000" step="10" value="330" />
+                <input id="distance-input" type="text" inputmode="numeric" value="330" />
+              </div>
+              <div class="pace-group">
+                <div class="field">
+                  <label for="pace-minutes">Pace min/km (minutes)</label>
+                  <input id="pace-minutes" type="text" inputmode="numeric" value="4" />
+                </div>
+                <div class="field">
+                  <label for="pace-seconds">Pace min/km (seconds)</label>
+                  <input id="pace-seconds" type="text" inputmode="numeric" value="0" />
+                </div>
+              </div>
+            </div>
+            <div class="card result-card">
+              <p class="result-label">Estimated time</p>
+              <p id="time-output" class="result-value">1:19</p>
+              <p id="time-output-detail" class="result-detail">Distance and pace summary appears here.</p>
+            </div>
           </div>
-          <div class="field">
-            <label for="goal-minutes">Goal time (minutes)</label>
-            <input id="goal-minutes" type="text" inputmode="numeric" value="25" />
+
+          <div id="race" class="tab-panel" role="tabpanel" hidden>
+            <div class="card">
+              <p class="panel-note">Build your race strategy with one of the two planning modes.</p>
+              <div class="field">
+                <label for="race-distance-km">Race distance (km)</label>
+                <input id="race-distance-km" type="text" inputmode="decimal" value="5" list="race-presets" />
+                <datalist id="race-presets">
+                  <option value="1"></option>
+                  <option value="3"></option>
+                  <option value="4"></option>
+                  <option value="5"></option>
+                  <option value="6"></option>
+                  <option value="10"></option>
+                  <option value="15"></option>
+                  <option value="21.1"></option>
+                  <option value="42.2"></option>
+                </datalist>
+              </div>
+              <div class="field">
+                <label for="race-mode">Calculation mode</label>
+                <select id="race-mode">
+                  <option value="goal-to-pace">Goal time -> required pace</option>
+                  <option value="pace-to-goal">Desired pace -> estimated goal time</option>
+                </select>
+              </div>
+              <p id="race-mode-note" class="mode-note">Enter your target finish time and see the pace you need.</p>
+
+              <div id="goal-time-group" class="race-mode-panel pace-group">
+                <div class="field">
+                  <label for="goal-hours">Goal time (hours)</label>
+                  <input id="goal-hours" type="text" inputmode="numeric" value="0" />
+                </div>
+                <div class="field">
+                  <label for="goal-minutes">Goal time (minutes)</label>
+                  <input id="goal-minutes" type="text" inputmode="numeric" value="25" />
+                </div>
+                <div class="field">
+                  <label for="goal-seconds">Goal time (seconds)</label>
+                  <input id="goal-seconds" type="text" inputmode="numeric" value="0" />
+                </div>
+              </div>
+
+              <div id="target-pace-group" class="race-mode-panel pace-group" hidden>
+                <div class="field">
+                  <label for="target-pace-minutes">Pace min/km (minutes)</label>
+                  <input id="target-pace-minutes" type="text" inputmode="numeric" value="5" />
+                </div>
+                <div class="field">
+                  <label for="target-pace-seconds">Pace min/km (seconds)</label>
+                  <input id="target-pace-seconds" type="text" inputmode="numeric" value="0" />
+                </div>
+              </div>
+            </div>
+            <div class="card result-card">
+              <p class="result-label">Race result</p>
+              <p id="race-output" class="result-value">5:00 min/km</p>
+              <p id="race-output-detail" class="result-detail">Required pace for 5km in 25:00.</p>
+            </div>
           </div>
-          <div class="field">
-            <label for="goal-seconds">Goal time (seconds)</label>
-            <input id="goal-seconds" type="text" inputmode="numeric" value="0" />
+
+          <div id="track" class="tab-panel" role="tabpanel" hidden>
+            <div class="card">
+              <p class="panel-note">Simulate one track workout with split checkpoints.</p>
+              <div class="field">
+                <label for="track-distance">Target distance (meters)</label>
+                <input id="track-distance" type="text" inputmode="numeric" value="400" list="track-distance-presets" />
+                <datalist id="track-distance-presets">
+                  <option value="400"></option>
+                  <option value="600"></option>
+                  <option value="800"></option>
+                  <option value="1000"></option>
+                  <option value="1200"></option>
+                  <option value="1500"></option>
+                  <option value="1600"></option>
+                  <option value="3000"></option>
+                  <option value="5000"></option>
+                </datalist>
+              </div>
+              <div class="pace-group">
+                <div class="field">
+                  <label for="track-pace-minutes">Pace min/km (minutes)</label>
+                  <input id="track-pace-minutes" type="text" inputmode="numeric" value="6" />
+                </div>
+                <div class="field">
+                  <label for="track-pace-seconds">Pace min/km (seconds)</label>
+                  <input id="track-pace-seconds" type="text" inputmode="numeric" value="0" />
+                </div>
+              </div>
+            </div>
+
+            <div class="card result-card">
+              <p class="result-label">Target result</p>
+              <p id="track-lap-output" class="result-value">2:24</p>
+              <p id="track-lap-detail" class="result-detail">Based on 6:00 min/km pace.</p>
+            </div>
+
+            <div class="card track-stage">
+              <svg id="track-svg" viewBox="0 0 520 260" role="img" aria-label="400m running track">
+                <g id="track-lanes">
+                  <path class="track-lane" d="M 60 20 H 460 A 110 110 0 0 1 460 240 H 60 A 110 110 0 0 1 60 20 Z"></path>
+                  <path class="track-lane" d="M 68 28 H 452 A 102 102 0 0 1 452 232 H 68 A 102 102 0 0 1 68 28 Z"></path>
+                  <path class="track-lane" d="M 76 36 H 444 A 94 94 0 0 1 444 224 H 76 A 94 94 0 0 1 76 36 Z"></path>
+                  <path class="track-lane" d="M 84 44 H 436 A 86 86 0 0 1 436 216 H 84 A 86 86 0 0 1 84 44 Z"></path>
+                  <path class="track-lane" d="M 92 52 H 428 A 78 78 0 0 1 428 208 H 92 A 78 78 0 0 1 92 52 Z"></path>
+                  <path class="track-lane" d="M 100 60 H 420 A 70 70 0 0 1 420 200 H 100 A 70 70 0 0 1 100 60 Z"></path>
+                </g>
+                <path id="track-path" d="M 104 64 H 416 A 66 66 0 0 1 416 196 H 104 A 66 66 0 0 1 104 64 Z"></path>
+                <g id="track-markers"></g>
+                <circle id="track-runner" cx="90" cy="50" r="6"></circle>
+              </svg>
+              <div class="track-live">
+                <p class="result-label">Live simulation clock</p>
+                <p id="track-live-time" class="result-value">0:00.0</p>
+                <button id="track-start-btn" type="button">Start Animation</button>
+                <p class="result-detail">Animation is accelerated so you can read splits quickly.</p>
+              </div>
+            </div>
+
+            <div id="track-splits" class="split-grid"></div>
           </div>
-        </div>
+        </section>
+      </main>
+    </div>
+  </div>
 
-        <div id="target-pace-group" class="race-mode-panel pace-group" hidden>
-          <div class="field">
-            <label for="target-pace-minutes">Pace min/km (minutes)</label>
-            <input id="target-pace-minutes" type="text" inputmode="numeric" value="5" />
-          </div>
-          <div class="field">
-            <label for="target-pace-seconds">Pace min/km (seconds)</label>
-            <input id="target-pace-seconds" type="text" inputmode="numeric" value="0" />
-          </div>
-        </div>
-
-        <div class="result-card">
-          <p class="result-label">Race result</p>
-          <p id="race-output" class="result-value">5:00 min/km</p>
-          <p id="race-output-detail" class="result-detail">Required pace for 5km in 25:00.</p>
-        </div>
-      </div>
-
-      <div id="track" class="tab-panel" role="tabpanel" hidden>
-        <p class="panel-note">Simulate one 400m lap with split checkpoints at every 100m.</p>
-
-        <div class="field">
-          <label for="track-distance">Target distance (meters)</label>
-          <input id="track-distance" type="text" inputmode="numeric" value="400" list="track-distance-presets" />
-          <datalist id="track-distance-presets">
-            <option value="400"></option>
-            <option value="600"></option>
-            <option value="800"></option>
-            <option value="1000"></option>
-            <option value="1200"></option>
-            <option value="1500"></option>
-            <option value="1600"></option>
-            <option value="3000"></option>
-            <option value="5000"></option>
-          </datalist>
-        </div>
-
-        <div class="pace-group">
-          <div class="field">
-            <label for="track-pace-minutes">Pace min/km (minutes)</label>
-            <input id="track-pace-minutes" type="text" inputmode="numeric" value="6" />
-          </div>
-          <div class="field">
-            <label for="track-pace-seconds">Pace min/km (seconds)</label>
-            <input id="track-pace-seconds" type="text" inputmode="numeric" value="0" />
-          </div>
-        </div>
-
-        <div class="result-card">
-          <p class="result-label">Target result</p>
-          <p id="track-lap-output" class="result-value">2:24</p>
-          <p id="track-lap-detail" class="result-detail">Based on 6:00 min/km pace.</p>
-        </div>
-
-        <div class="track-stage">
-          <svg id="track-svg" viewBox="0 0 520 260" role="img" aria-label="400m running track">
-            <g id="track-lanes">
-              <path class="track-lane" d="M 60 20 H 460 A 110 110 0 0 1 460 240 H 60 A 110 110 0 0 1 60 20 Z"></path>
-              <path class="track-lane" d="M 68 28 H 452 A 102 102 0 0 1 452 232 H 68 A 102 102 0 0 1 68 28 Z"></path>
-              <path class="track-lane" d="M 76 36 H 444 A 94 94 0 0 1 444 224 H 76 A 94 94 0 0 1 76 36 Z"></path>
-              <path class="track-lane" d="M 84 44 H 436 A 86 86 0 0 1 436 216 H 84 A 86 86 0 0 1 84 44 Z"></path>
-              <path class="track-lane" d="M 92 52 H 428 A 78 78 0 0 1 428 208 H 92 A 78 78 0 0 1 92 52 Z"></path>
-              <path class="track-lane" d="M 100 60 H 420 A 70 70 0 0 1 420 200 H 100 A 70 70 0 0 1 100 60 Z"></path>
-            </g>
-            <path id="track-path" d="M 104 64 H 416 A 66 66 0 0 1 416 196 H 104 A 66 66 0 0 1 104 64 Z"></path>
-            <g id="track-markers"></g>
-            <circle id="track-runner" cx="90" cy="50" r="6"></circle>
-          </svg>
-          <div class="track-live">
-            <p class="result-label">Live simulation clock</p>
-            <p id="track-live-time" class="result-value">0:00.0</p>
-            <button id="track-start-btn" type="button">Start Animation</button>
-            <p class="result-detail">Animation is accelerated so you can see splits quickly.</p>
-          </div>
-        </div>
-
-        <div id="track-splits" class="split-grid"></div>
-      </div>
-    </section>
-  </main>
-
-  <script src="script.js?v=20260212-5"></script>
+  <script src="script.js?v=20260212-6"></script>
 </body>
 </html>
