@@ -21,6 +21,10 @@ body {
   font-family: "Sora", sans-serif;
   color: var(--text);
   background: linear-gradient(160deg, #040817 0%, #0a1230 100%);
+  background-image:
+    radial-gradient(circle at 14% 12%, rgba(34, 211, 238, 0.16), transparent 28%),
+    radial-gradient(circle at 88% 20%, rgba(244, 63, 94, 0.12), transparent 30%),
+    linear-gradient(160deg, #040817 0%, #0a1230 100%);
 }
 
 .app-shell {
@@ -99,6 +103,8 @@ body {
 
 .content {
   padding: 18px;
+  display: grid;
+  justify-content: center;
 }
 
 .panel {
@@ -109,6 +115,8 @@ body {
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 14px;
+  width: min(1040px, 100%);
+  box-shadow: 0 18px 35px rgba(2, 8, 26, 0.45);
 }
 
 .stat-strip {
@@ -119,7 +127,7 @@ body {
 }
 
 .stat-card {
-  background: #0f1a3a;
+  background: linear-gradient(145deg, #10224a, #0f1a3a);
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 9px 10px;
@@ -146,7 +154,7 @@ body {
 
 .tab {
   border: 1px solid var(--line);
-  background: #1a2a56;
+  background: linear-gradient(145deg, #1f3166, #182853);
   color: var(--muted);
   border-radius: 10px;
   padding: 10px;
@@ -173,10 +181,11 @@ body {
 }
 
 .card {
-  background: linear-gradient(180deg, var(--card), #122044);
+  background: linear-gradient(155deg, var(--card), #122044);
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 12px;
+  max-width: 760px;
 }
 
 .panel-note,
@@ -221,7 +230,7 @@ select {
 
 .field input[type="text"],
 .field select {
-  width: min(230px, 100%);
+  width: min(190px, 100%);
 }
 
 input[type="range"] {
@@ -264,8 +273,9 @@ input[type="range"] {
 
 .track-stage {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: minmax(320px, 1fr) minmax(220px, 280px);
   gap: 10px;
+  align-items: start;
 }
 
 #track-svg {
@@ -333,6 +343,7 @@ input[type="range"] {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   gap: 8px;
+  max-width: 760px;
 }
 
 .split-item {
@@ -355,25 +366,25 @@ input[type="range"] {
 
 .panel[data-theme="converter"] {
   --theme-accent: #16d6c4;
-  --theme-accent-2: #20a6ff;
+  --theme-accent-2: #38bdf8;
   --theme-highlight: #c7fff6;
 }
 
 .panel[data-theme="distance"] {
   --theme-accent: #facc15;
-  --theme-accent-2: #22c55e;
+  --theme-accent-2: #4ade80;
   --theme-highlight: #f7fee7;
 }
 
 .panel[data-theme="race"] {
-  --theme-accent: #a78bfa;
-  --theme-accent-2: #f43f5e;
+  --theme-accent: #c084fc;
+  --theme-accent-2: #fb7185;
   --theme-highlight: #fce7f3;
 }
 
 .panel[data-theme="track"] {
   --theme-accent: #22c55e;
-  --theme-accent-2: #06b6d4;
+  --theme-accent-2: #2dd4bf;
   --theme-highlight: #dcfce7;
 }
 
