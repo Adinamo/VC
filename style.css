@@ -149,13 +149,13 @@ label {
   font-size: 0.9rem;
 }
 
-input[type="number"],
+input[type="text"],
 input[type="range"],
 select {
   width: 100%;
 }
 
-input[type="number"],
+input[type="text"],
 select {
   background: rgba(8, 18, 34, 0.8);
   color: var(--text);

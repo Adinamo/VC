@@ -31,7 +31,7 @@
         <p class="panel-note">Enter only your speed and get instant pace conversion.</p>
         <div class="field">
           <label for="speed-input">Speed (km/h)</label>
-          <input id="speed-input" type="number" min="0.1" step="0.1" value="10" />
+          <input id="speed-input" type="text" inputmode="decimal" value="10" />
         </div>
 
         <div class="result-card">
@@ -45,17 +45,17 @@
         <div class="field">
           <label for="distance-range">Distance (meters): <span id="distance-value">330</span>m</label>
           <input id="distance-range" type="range" min="0" max="1000" step="10" value="330" />
-          <input id="distance-input" type="number" min="0" max="1000" step="10" value="330" />
+          <input id="distance-input" type="text" inputmode="numeric" value="330" />
         </div>
 
         <div class="pace-group">
           <div class="field">
             <label for="pace-minutes">Pace min/km (minutes)</label>
-            <input id="pace-minutes" type="number" min="0" max="30" step="1" value="4" />
+            <input id="pace-minutes" type="text" inputmode="numeric" value="4" />
           </div>
           <div class="field">
             <label for="pace-seconds">Pace min/km (seconds)</label>
-            <input id="pace-seconds" type="number" min="0" max="59" step="1" value="0" />
+            <input id="pace-seconds" type="text" inputmode="numeric" value="0" />
           </div>
         </div>
 
@@ -71,7 +71,7 @@
 
         <div class="field">
           <label for="race-distance-km">Race distance (km)</label>
-          <input id="race-distance-km" type="number" min="0.1" max="1000" step="0.1" value="5" list="race-presets" />
+          <input id="race-distance-km" type="text" inputmode="decimal" value="5" list="race-presets" />
           <datalist id="race-presets">
             <option value="1"></option>
             <option value="3"></option>
@@ -96,26 +96,26 @@
         <div id="goal-time-group" class="pace-group">
           <div class="field">
             <label for="goal-hours">Goal time (hours)</label>
-            <input id="goal-hours" type="number" min="0" step="1" value="0" />
+            <input id="goal-hours" type="text" inputmode="numeric" value="0" />
           </div>
           <div class="field">
             <label for="goal-minutes">Goal time (minutes)</label>
-            <input id="goal-minutes" type="number" min="0" max="59" step="1" value="25" />
+            <input id="goal-minutes" type="text" inputmode="numeric" value="25" />
           </div>
           <div class="field">
             <label for="goal-seconds">Goal time (seconds)</label>
-            <input id="goal-seconds" type="number" min="0" max="59" step="1" value="0" />
+            <input id="goal-seconds" type="text" inputmode="numeric" value="0" />
           </div>
         </div>
 
         <div id="target-pace-group" class="pace-group" hidden>
           <div class="field">
             <label for="target-pace-minutes">Pace min/km (minutes)</label>
-            <input id="target-pace-minutes" type="number" min="0" max="30" step="1" value="5" />
+            <input id="target-pace-minutes" type="text" inputmode="numeric" value="5" />
           </div>
           <div class="field">
             <label for="target-pace-seconds">Pace min/km (seconds)</label>
-            <input id="target-pace-seconds" type="number" min="0" max="59" step="1" value="0" />
+            <input id="target-pace-seconds" type="text" inputmode="numeric" value="0" />
           </div>
         </div>
 

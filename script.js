@@ -59,7 +59,7 @@ targetPaceMinutesInput.addEventListener('input', updateRacePlanner);
 targetPaceSecondsInput.addEventListener('input', updateRacePlanner);
 
 function updateConverter() {
-  const speed = Number(speedInput.value);
+  const speed = parseLocaleNumber(speedInput.value);
 
   if (!Number.isFinite(speed) || speed <= 0) {
     paceOutput.textContent = '--:-- min/km';
@@ -73,7 +73,7 @@ function updateConverter() {
 }
 
 function syncDistance(rawValue) {
-  let distance = Number(rawValue);
+  let distance = parseLocaleNumber(rawValue);
   if (!Number.isFinite(distance)) {
     distance = 0;
   }
@@ -88,7 +88,7 @@ function syncDistance(rawValue) {
 }
 
 function updateDistanceTime() {
-  const distanceMeters = Number(distanceInput.value) || 0;
+  const distanceMeters = parseLocaleNumber(distanceInput.value) || 0;
   const secondsPerKm = getPaceSeconds(paceMinutesInput, paceSecondsInput);
 
   if (secondsPerKm <= 0) {
@@ -111,7 +111,7 @@ function updateRaceMode() {
 }
 
 function updateRacePlanner() {
-  const distanceKm = Number(raceDistanceKmInput.value);
+  const distanceKm = parseLocaleNumber(raceDistanceKmInput.value);
 
   if (!Number.isFinite(distanceKm) || distanceKm <= 0) {
     raceOutput.textContent = '--';
@@ -148,9 +148,9 @@ function updateRacePlanner() {
 }
 
 function getGoalTimeSeconds() {
-  const hours = Math.max(0, Math.floor(Number(goalHoursInput.value) || 0));
-  const minutes = Math.max(0, Math.min(59, Math.floor(Number(goalMinutesInput.value) || 0)));
-  const seconds = Math.max(0, Math.min(59, Math.floor(Number(goalSecondsInput.value) || 0)));
+  const hours = Math.max(0, Math.floor(parseLocaleNumber(goalHoursInput.value) || 0));
+  const minutes = Math.max(0, Math.min(59, Math.floor(parseLocaleNumber(goalMinutesInput.value) || 0)));
+  const seconds = Math.max(0, Math.min(59, Math.floor(parseLocaleNumber(goalSecondsInput.value) || 0)));
 
   goalHoursInput.value = String(hours);
   goalMinutesInput.value = String(minutes);
@@ -160,8 +160,8 @@ function getGoalTimeSeconds() {
 }
 
 function getPaceSeconds(minutesInput, secondsInput) {
-  const minutes = Math.max(0, Math.floor(Number(minutesInput.value) || 0));
-  const seconds = Math.max(0, Math.min(59, Math.floor(Number(secondsInput.value) || 0)));
+  const minutes = Math.max(0, Math.floor(parseLocaleNumber(minutesInput.value) || 0));
+  const seconds = Math.max(0, Math.min(59, Math.floor(parseLocaleNumber(secondsInput.value) || 0)));
 
   minutesInput.value = String(minutes);
   secondsInput.value = String(seconds);
@@ -193,6 +193,10 @@ function formatDistance(distanceKm) {
   }
 
   return `${distanceKm.toFixed(1)}km`;
+}
+
+function parseLocaleNumber(value) {
+  return Number(String(value).trim().replace(',', '.'));
 }
 
 updateConverter();
