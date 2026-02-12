@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260212-3" />
+  <link rel="stylesheet" href="style.css?v=20260212-4" />
 </head>
 <body>
   <div class="bg-glow bg-glow-1"></div>
@@ -25,6 +25,7 @@
         <button class="tab active" data-tab="converter" role="tab" aria-selected="true">Speed Converter</button>
         <button class="tab" data-tab="distance" role="tab" aria-selected="false">Distance Time</button>
         <button class="tab" data-tab="race" role="tab" aria-selected="false">Race Planner</button>
+        <button class="tab" data-tab="track" role="tab" aria-selected="false">400m Track</button>
       </div>
 
       <div id="converter" class="tab-panel active" role="tabpanel">
@@ -127,9 +128,63 @@
           <p id="race-output-detail" class="result-detail">Required pace for 5km in 25:00.</p>
         </div>
       </div>
+
+      <div id="track" class="tab-panel" role="tabpanel" hidden>
+        <p class="panel-note">Simulate one 400m lap with split checkpoints at every 100m.</p>
+
+        <div class="pace-group">
+          <div class="field">
+            <label for="track-pace-minutes">Pace min/km (minutes)</label>
+            <input id="track-pace-minutes" type="text" inputmode="numeric" value="6" />
+          </div>
+          <div class="field">
+            <label for="track-pace-seconds">Pace min/km (seconds)</label>
+            <input id="track-pace-seconds" type="text" inputmode="numeric" value="0" />
+          </div>
+        </div>
+
+        <div class="result-card">
+          <p class="result-label">400m target</p>
+          <p id="track-lap-output" class="result-value">2:24</p>
+          <p id="track-lap-detail" class="result-detail">Based on 6:00 min/km pace.</p>
+        </div>
+
+        <div class="track-stage">
+          <svg id="track-svg" viewBox="0 0 520 260" role="img" aria-label="400m running track">
+            <path id="track-path" d="M 90 50 H 430 A 80 80 0 0 1 430 210 H 90 A 80 80 0 0 1 90 50 Z"></path>
+            <g id="track-markers"></g>
+            <circle id="track-runner" cx="90" cy="50" r="6"></circle>
+          </svg>
+          <div class="track-live">
+            <p class="result-label">Live simulation clock</p>
+            <p id="track-live-time" class="result-value">0:00.0</p>
+            <button id="track-start-btn" type="button">Start Animation</button>
+            <p class="result-detail">Animation is accelerated so you can see splits quickly.</p>
+          </div>
+        </div>
+
+        <div class="split-grid">
+          <div class="split-item" data-split="100">
+            <span>100m</span>
+            <strong id="track-split-100">0:36.0</strong>
+          </div>
+          <div class="split-item" data-split="200">
+            <span>200m</span>
+            <strong id="track-split-200">1:12.0</strong>
+          </div>
+          <div class="split-item" data-split="300">
+            <span>300m</span>
+            <strong id="track-split-300">1:48.0</strong>
+          </div>
+          <div class="split-item" data-split="400">
+            <span>400m</span>
+            <strong id="track-split-400">2:24.0</strong>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
-  <script src="script.js?v=20260212-3"></script>
+  <script src="script.js?v=20260212-4"></script>
 </body>
 </html>

@@ -111,7 +111,7 @@ body {
 
 .tabs {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
   margin-bottom: 14px;
 }
@@ -241,6 +241,98 @@ input[type="range"] {
   color: var(--muted);
 }
 
+.track-stage {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 12px;
+}
+
+#track-svg {
+  width: 100%;
+  border-radius: 16px;
+  background: radial-gradient(circle at 30% 20%, #12223b, #091427);
+  border: 1px solid rgba(153, 170, 203, 0.2);
+  padding: 10px;
+}
+
+#track-path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 26;
+  stroke-linecap: round;
+}
+
+#track-runner {
+  fill: var(--theme-accent);
+  filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.6));
+}
+
+.track-marker-dot {
+  fill: #0b1424;
+  stroke: rgba(255, 255, 255, 0.75);
+  stroke-width: 2;
+}
+
+.track-marker-label {
+  fill: #e8efff;
+  font: 700 11px "Space Mono", monospace;
+}
+
+.track-live {
+  background: rgba(8, 18, 34, 0.55);
+  border: 1px solid rgba(153, 170, 203, 0.2);
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+#track-start-btn {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-weight: 700;
+  color: #06101d;
+  background: linear-gradient(135deg, var(--theme-accent), var(--theme-accent-2));
+  cursor: pointer;
+}
+
+#track-start-btn:hover {
+  transform: translateY(-1px);
+}
+
+.split-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.split-item {
+  border: 1px solid rgba(153, 170, 203, 0.25);
+  border-radius: 10px;
+  background: rgba(8, 18, 34, 0.45);
+  padding: 10px;
+  display: grid;
+  gap: 6px;
+}
+
+.split-item span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.split-item strong {
+  font-family: "Space Mono", monospace;
+  color: #f8fafc;
+}
+
+.split-item.reached {
+  border-color: var(--theme-accent);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset;
+}
+
 @keyframes rise {
   from {
     opacity: 0;
@@ -265,6 +357,14 @@ input[type="range"] {
   .pace-group {
     grid-template-columns: 1fr;
   }
+
+  .track-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .split-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .panel[data-theme="converter"] {
@@ -283,4 +383,10 @@ input[type="range"] {
   --theme-accent: #a78bfa;
   --theme-accent-2: #f43f5e;
   --theme-highlight: #fce7f3;
+}
+
+.panel[data-theme="track"] {
+  --theme-accent: #22c55e;
+  --theme-accent-2: #06b6d4;
+  --theme-highlight: #dcfce7;
 }

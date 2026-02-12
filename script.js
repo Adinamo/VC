@@ -25,6 +25,22 @@ const targetPaceSecondsInput = document.getElementById('target-pace-seconds');
 const raceOutput = document.getElementById('race-output');
 const raceOutputDetail = document.getElementById('race-output-detail');
 const raceModeNote = document.getElementById('race-mode-note');
+const trackPaceMinutesInput = document.getElementById('track-pace-minutes');
+const trackPaceSecondsInput = document.getElementById('track-pace-seconds');
+const trackLapOutput = document.getElementById('track-lap-output');
+const trackLapDetail = document.getElementById('track-lap-detail');
+const trackLiveTime = document.getElementById('track-live-time');
+const trackStartButton = document.getElementById('track-start-btn');
+const trackPath = document.getElementById('track-path');
+const trackRunner = document.getElementById('track-runner');
+const trackMarkers = document.getElementById('track-markers');
+const split100 = document.getElementById('track-split-100');
+const split200 = document.getElementById('track-split-200');
+const split300 = document.getElementById('track-split-300');
+const split400 = document.getElementById('track-split-400');
+const splitCards = Array.from(document.querySelectorAll('.split-item'));
+
+let trackAnimationFrame = 0;
 
 tabs.forEach((tab) => {
   tab.addEventListener('click', () => {
@@ -58,6 +74,9 @@ goalMinutesInput.addEventListener('input', updateRacePlanner);
 goalSecondsInput.addEventListener('input', updateRacePlanner);
 targetPaceMinutesInput.addEventListener('input', updateRacePlanner);
 targetPaceSecondsInput.addEventListener('input', updateRacePlanner);
+trackPaceMinutesInput.addEventListener('input', updateTrackTab);
+trackPaceSecondsInput.addEventListener('input', updateTrackTab);
+trackStartButton.addEventListener('click', runTrackAnimation);
 
 function updateConverter() {
   const speed = parseLocaleNumber(speedInput.value);
@@ -204,7 +223,116 @@ function parseLocaleNumber(value) {
   return Number(String(value).trim().replace(',', '.'));
 }
 
+function updateTrackTab() {
+  const paceSeconds = getPaceSeconds(trackPaceMinutesInput, trackPaceSecondsInput);
+
+  if (paceSeconds <= 0) {
+    trackLapOutput.textContent = '--:--';
+    trackLapDetail.textContent = 'Set a valid pace above 0:00 min/km.';
+    trackLiveTime.textContent = '0:00.0';
+    [split100, split200, split300, split400].forEach((item) => {
+      item.textContent = '--';
+    });
+    return;
+  }
+
+  const lapSeconds = paceSeconds * 0.4;
+  const splitTimes = [paceSeconds * 0.1, paceSeconds * 0.2, paceSeconds * 0.3, lapSeconds];
+
+  trackLapOutput.textContent = formatClock(Math.round(lapSeconds));
+  trackLapDetail.textContent = `Based on ${formatClock(paceSeconds)} min/km pace.`;
+  split100.textContent = formatSplit(splitTimes[0]);
+  split200.textContent = formatSplit(splitTimes[1]);
+  split300.textContent = formatSplit(splitTimes[2]);
+  split400.textContent = formatSplit(splitTimes[3]);
+  trackLiveTime.textContent = '0:00.0';
+  splitCards.forEach((card) => card.classList.remove('reached'));
+  setRunnerProgress(0);
+}
+
+function setupTrackMarkers() {
+  if (!trackPath || !trackMarkers) return;
+
+  const total = trackPath.getTotalLength();
+  const marks = [
+    { fraction: 0, label: 'Start/400' },
+    { fraction: 0.25, label: '100m' },
+    { fraction: 0.5, label: '200m' },
+    { fraction: 0.75, label: '300m' }
+  ];
+
+  trackMarkers.innerHTML = '';
+  marks.forEach((mark) => {
+    const point = trackPath.getPointAtLength(total * mark.fraction);
+    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    dot.setAttribute('cx', String(point.x));
+    dot.setAttribute('cy', String(point.y));
+    dot.setAttribute('r', '5');
+    dot.setAttribute('class', 'track-marker-dot');
+
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', String(point.x + 8));
+    text.setAttribute('y', String(point.y - 8));
+    text.setAttribute('class', 'track-marker-label');
+    text.textContent = mark.label;
+
+    trackMarkers.append(dot, text);
+  });
+}
+
+function runTrackAnimation() {
+  const paceSeconds = getPaceSeconds(trackPaceMinutesInput, trackPaceSecondsInput);
+  if (paceSeconds <= 0) {
+    return;
+  }
+
+  const lapSeconds = paceSeconds * 0.4;
+  const splitThresholds = [lapSeconds * 0.25, lapSeconds * 0.5, lapSeconds * 0.75, lapSeconds];
+  const visualDurationMs = Math.max(6000, Math.min(20000, lapSeconds * 1000 * 0.2));
+  const startedAt = performance.now();
+
+  cancelAnimationFrame(trackAnimationFrame);
+  splitCards.forEach((card) => card.classList.remove('reached'));
+  setRunnerProgress(0);
+
+  function frame(now) {
+    const elapsed = now - startedAt;
+    const progress = Math.min(elapsed / visualDurationMs, 1);
+    const simulatedSeconds = lapSeconds * progress;
+
+    setRunnerProgress(progress);
+    trackLiveTime.textContent = formatSplit(simulatedSeconds);
+
+    splitThresholds.forEach((threshold, index) => {
+      if (simulatedSeconds >= threshold) {
+        splitCards[index].classList.add('reached');
+      }
+    });
+
+    if (progress < 1) {
+      trackAnimationFrame = requestAnimationFrame(frame);
+    }
+  }
+
+  trackAnimationFrame = requestAnimationFrame(frame);
+}
+
+function setRunnerProgress(progress) {
+  const total = trackPath.getTotalLength();
+  const point = trackPath.getPointAtLength(total * progress);
+  trackRunner.setAttribute('cx', String(point.x));
+  trackRunner.setAttribute('cy', String(point.y));
+}
+
+function formatSplit(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = (totalSeconds % 60).toFixed(1).padStart(4, '0');
+  return `${minutes}:${seconds}`;
+}
+
 updateConverter();
 syncDistance(distanceInput.value);
 updateRaceMode();
+setupTrackMarkers();
+updateTrackTab();
 panelContainer.dataset.theme = 'converter';

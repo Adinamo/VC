@@ -1,10 +1,11 @@
 ﻿# RunLab Calculator
 
-Modern running calculator with three features:
+Modern running calculator with four features:
 
 1. Speed converter: `km/h` -> `min/km`.
 2. Distance time estimator: `distance (0-1000m)` + `pace (min/km)` -> expected time.
 3. Race planner: race distance + goal time or target pace -> required pace or predicted finish time.
+4. 400m track simulator: split times at 100m/200m/300m/400m + animated runner.
 
 ## Local run
 
