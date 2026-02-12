@@ -27,19 +27,20 @@
       </div>
 
       <div id="converter" class="tab-panel active" role="tabpanel">
+        <p class="panel-note">Enter only your speed and get instant pace conversion.</p>
         <div class="field">
           <label for="speed-input">Speed (km/h)</label>
           <input id="speed-input" type="number" min="0.1" step="0.1" value="10" />
         </div>
 
         <div class="result-card">
-          <p class="result-label">Equivalent pace</p>
+          <p class="result-label">Converted pace</p>
           <p id="pace-output" class="result-value">6:00 min/km</p>
-          <p id="pace-output-detail" class="result-detail">6.00 min/km</p>
         </div>
       </div>
 
       <div id="distance" class="tab-panel" role="tabpanel" hidden>
+        <p class="panel-note">Pick distance and pace, then get your target finish time.</p>
         <div class="field">
           <label for="distance-range">Distance (meters): <span id="distance-value">330</span>m</label>
           <input id="distance-range" type="range" min="0" max="1000" step="10" value="330" />
@@ -60,7 +61,7 @@
         <div class="result-card">
           <p class="result-label">Estimated time</p>
           <p id="time-output" class="result-value">1:19</p>
-          <p id="time-output-detail" class="result-detail">for 330m at 4:00 min/km</p>
+          <p id="time-output-detail" class="result-detail">Distance and pace summary appears here.</p>
         </div>
       </div>
     </section>

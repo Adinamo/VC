@@ -3,7 +3,6 @@ const panels = document.querySelectorAll('.tab-panel');
 
 const speedInput = document.getElementById('speed-input');
 const paceOutput = document.getElementById('pace-output');
-const paceOutputDetail = document.getElementById('pace-output-detail');
 
 const distanceRange = document.getElementById('distance-range');
 const distanceInput = document.getElementById('distance-input');
@@ -42,7 +41,6 @@ function updateConverter() {
 
   if (!Number.isFinite(speed) || speed <= 0) {
     paceOutput.textContent = '--:-- min/km';
-    paceOutputDetail.textContent = 'Enter a valid speed above 0';
     return;
   }
 
@@ -50,7 +48,6 @@ function updateConverter() {
   const totalSeconds = Math.round(paceMinutes * 60);
 
   paceOutput.textContent = `${formatClock(totalSeconds)} min/km`;
-  paceOutputDetail.textContent = `${paceMinutes.toFixed(2)} min/km`;
 }
 
 function syncDistance(rawValue) {
