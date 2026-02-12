@@ -75,6 +75,7 @@ targetPaceSecondsInput.addEventListener('input', updateRacePlanner);
 trackPaceMinutesInput.addEventListener('input', updateTrackTab);
 trackPaceSecondsInput.addEventListener('input', updateTrackTab);
 trackDistanceInput.addEventListener('input', updateTrackTab);
+trackDistanceInput.addEventListener('blur', normalizeTrackDistanceInput);
 trackStartButton.addEventListener('click', runTrackAnimation);
 
 function updateConverter() {
@@ -225,8 +226,13 @@ function parseLocaleNumber(value) {
 function updateTrackTab() {
   const targetMeters = getTrackDistanceMeters();
   const paceSeconds = getPaceSeconds(trackPaceMinutesInput, trackPaceSecondsInput);
-  currentTrackSplits = buildTrackSplits(targetMeters);
-  renderTrackSplits(currentTrackSplits);
+  if (Number.isFinite(targetMeters) && targetMeters > 0) {
+    currentTrackSplits = buildTrackSplits(targetMeters);
+    renderTrackSplits(currentTrackSplits);
+  } else {
+    currentTrackSplits = [];
+    renderTrackSplits([]);
+  }
 
   if (paceSeconds <= 0 || targetMeters <= 0) {
     trackLapOutput.textContent = '--:--';
@@ -382,10 +388,36 @@ function formatSplit(totalSeconds) {
 }
 
 function getTrackDistanceMeters() {
-  let meters = Math.floor(parseLocaleNumber(trackDistanceInput.value) || 0);
-  meters = Math.max(100, Math.min(20000, meters));
-  trackDistanceInput.value = String(meters);
-  return meters;
+  return parseDistanceToMeters(trackDistanceInput.value);
+}
+
+function normalizeTrackDistanceInput() {
+  const meters = parseDistanceToMeters(trackDistanceInput.value);
+  if (!Number.isFinite(meters) || meters <= 0) {
+    return;
+  }
+
+  if (meters >= 1000 && meters % 1000 === 0) {
+    trackDistanceInput.value = `${meters / 1000}km`;
+    return;
+  }
+
+  trackDistanceInput.value = `${meters}m`;
+}
+
+function parseDistanceToMeters(rawValue) {
+  const value = String(rawValue).trim().toLowerCase();
+  if (!value) return Number.NaN;
+
+  const matched = value.match(/^([0-9]+(?:[.,][0-9]+)?)\s*(km|k|m)?$/i);
+  if (!matched) return Number.NaN;
+
+  const amount = Number(matched[1].replace(',', '.'));
+  if (!Number.isFinite(amount) || amount <= 0) return Number.NaN;
+
+  const unit = matched[2] || 'm';
+  const meters = unit === 'km' || unit === 'k' ? amount * 1000 : amount;
+  return Math.round(meters);
 }
 
 function buildTrackSplits(targetMeters) {

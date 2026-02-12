@@ -51,25 +51,12 @@ body {
   border: 1px solid var(--line);
 }
 
-.side-nav {
-  display: grid;
-  gap: 10px;
-  align-content: start;
-}
-
-.side-btn {
-  border: 1px solid var(--line);
-  background: #0e1a3d;
-  color: var(--muted);
-  border-radius: 10px;
-  height: 40px;
-  font-size: 0.74rem;
-  cursor: pointer;
-}
-
-.side-btn.active {
-  color: var(--text);
-  border-color: var(--theme-accent);
+.side-line {
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, transparent 0%, var(--theme-accent) 50%, transparent 100%);
+  justify-self: center;
+  align-self: stretch;
 }
 
 .main-area {
@@ -101,25 +88,13 @@ body {
   font-size: 1.4rem;
 }
 
-.top-nav {
+.top-meta {
+  margin: 0;
   justify-self: end;
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.top-link {
   color: var(--muted);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.93rem;
-  padding-bottom: 8px;
-  border-bottom: 2px solid transparent;
-}
-
-.top-link.active {
-  color: var(--text);
-  border-bottom-color: #ff4f6d;
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .content {
@@ -134,6 +109,32 @@ body {
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 14px;
+}
+
+.stat-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.stat-card {
+  background: #0f1a3a;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.stat-card span {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.stat-card strong {
+  font-family: "Space Mono", monospace;
+  font-size: 1rem;
 }
 
 .tabs {
@@ -216,6 +217,11 @@ select {
   border-radius: 10px;
   padding: 10px;
   font-family: "Space Mono", monospace;
+}
+
+.field input[type="text"],
+.field select {
+  width: min(230px, 100%);
 }
 
 input[type="range"] {
@@ -377,11 +383,15 @@ input[type="range"] {
     align-items: start;
   }
 
-  .top-nav {
+  .top-meta {
     justify-self: start;
   }
 
   .tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stat-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -399,19 +409,19 @@ input[type="range"] {
     padding: 8px 12px;
   }
 
-  .side-nav {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-  }
-
-  .side-btn {
-    width: 70px;
+  .side-line {
+    width: 100%;
+    height: 2px;
+    align-self: center;
   }
 
   .tabs,
   .pace-group,
   .track-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-strip {
     grid-template-columns: 1fr;
   }
 }

@@ -7,17 +7,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260212-6" />
+  <link rel="stylesheet" href="style.css?v=20260212-7" />
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar">
       <div class="brand">RL</div>
-      <nav class="side-nav" aria-label="Sidebar">
-        <button class="side-btn active" type="button">Run</button>
-        <button class="side-btn" type="button">Plan</button>
-        <button class="side-btn" type="button">Stats</button>
-      </nav>
+      <div class="side-line" aria-hidden="true"></div>
       <div class="side-user">AD</div>
     </aside>
 
@@ -27,16 +23,18 @@
           <p class="kicker">running toolkit</p>
           <h1>RunLab Dashboard</h1>
         </div>
-        <nav class="top-nav" aria-label="Primary">
-          <a href="#" class="top-link active">Dashboard</a>
-          <a href="#" class="top-link">Metrics</a>
-          <a href="#" class="top-link">Activity</a>
-          <a href="#" class="top-link">Calendar</a>
-        </nav>
+        <p class="top-meta">Performance Analytics</p>
       </header>
 
       <main class="content">
         <section class="panel" data-theme="converter">
+          <div class="stat-strip">
+            <div class="stat-card"><span>Weekly Load</span><strong>82</strong></div>
+            <div class="stat-card"><span>Threshold Pace</span><strong>3:50</strong></div>
+            <div class="stat-card"><span>Readiness</span><strong>Great</strong></div>
+            <div class="stat-card"><span>7d Consistency</span><strong>102%</strong></div>
+          </div>
+
           <div class="tabs" role="tablist" aria-label="Calculator tabs">
             <button class="tab active" data-tab="converter" role="tab" aria-selected="true">Speed Converter</button>
             <button class="tab" data-tab="distance" role="tab" aria-selected="false">Distance Time</button>
@@ -149,17 +147,14 @@
               <p class="panel-note">Simulate one track workout with split checkpoints.</p>
               <div class="field">
                 <label for="track-distance">Target distance (meters)</label>
-                <input id="track-distance" type="text" inputmode="numeric" value="400" list="track-distance-presets" />
+                <input id="track-distance" type="text" inputmode="text" value="400m" list="track-distance-presets" />
                 <datalist id="track-distance-presets">
-                  <option value="400"></option>
-                  <option value="600"></option>
-                  <option value="800"></option>
-                  <option value="1000"></option>
-                  <option value="1200"></option>
-                  <option value="1500"></option>
-                  <option value="1600"></option>
-                  <option value="3000"></option>
-                  <option value="5000"></option>
+                  <option value="400m"></option>
+                  <option value="800m"></option>
+                  <option value="1km"></option>
+                  <option value="1.5km"></option>
+                  <option value="3km"></option>
+                  <option value="5km"></option>
                 </datalist>
               </div>
               <div class="pace-group">
@@ -209,6 +204,6 @@
     </div>
   </div>
 
-  <script src="script.js?v=20260212-6"></script>
+  <script src="script.js?v=20260212-7"></script>
 </body>
 </html>
