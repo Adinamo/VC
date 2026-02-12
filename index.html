@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260212-1" />
+  <link rel="stylesheet" href="style.css?v=20260212-2" />
 </head>
 <body>
   <div class="bg-glow bg-glow-1"></div>
@@ -24,6 +24,7 @@
       <div class="tabs" role="tablist" aria-label="Calculator tabs">
         <button class="tab active" data-tab="converter" role="tab" aria-selected="true">Speed Converter</button>
         <button class="tab" data-tab="distance" role="tab" aria-selected="false">Distance Time</button>
+        <button class="tab" data-tab="race" role="tab" aria-selected="false">Race Planner</button>
       </div>
 
       <div id="converter" class="tab-panel active" role="tabpanel">
@@ -64,9 +65,69 @@
           <p id="time-output-detail" class="result-detail">Distance and pace summary appears here.</p>
         </div>
       </div>
+
+      <div id="race" class="tab-panel" role="tabpanel" hidden>
+        <p class="panel-note">Pick race distance and calculate either required pace or finish time.</p>
+
+        <div class="field">
+          <label for="race-distance-km">Race distance (km)</label>
+          <input id="race-distance-km" type="number" min="0.1" max="1000" step="0.1" value="5" list="race-presets" />
+          <datalist id="race-presets">
+            <option value="1"></option>
+            <option value="3"></option>
+            <option value="4"></option>
+            <option value="5"></option>
+            <option value="6"></option>
+            <option value="10"></option>
+            <option value="15"></option>
+            <option value="21.1"></option>
+            <option value="42.2"></option>
+          </datalist>
+        </div>
+
+        <div class="field">
+          <label for="race-mode">Calculation mode</label>
+          <select id="race-mode">
+            <option value="goal-to-pace">Goal time -> required pace</option>
+            <option value="pace-to-goal">Desired pace -> estimated goal time</option>
+          </select>
+        </div>
+
+        <div id="goal-time-group" class="pace-group">
+          <div class="field">
+            <label for="goal-hours">Goal time (hours)</label>
+            <input id="goal-hours" type="number" min="0" step="1" value="0" />
+          </div>
+          <div class="field">
+            <label for="goal-minutes">Goal time (minutes)</label>
+            <input id="goal-minutes" type="number" min="0" max="59" step="1" value="25" />
+          </div>
+          <div class="field">
+            <label for="goal-seconds">Goal time (seconds)</label>
+            <input id="goal-seconds" type="number" min="0" max="59" step="1" value="0" />
+          </div>
+        </div>
+
+        <div id="target-pace-group" class="pace-group" hidden>
+          <div class="field">
+            <label for="target-pace-minutes">Pace min/km (minutes)</label>
+            <input id="target-pace-minutes" type="number" min="0" max="30" step="1" value="5" />
+          </div>
+          <div class="field">
+            <label for="target-pace-seconds">Pace min/km (seconds)</label>
+            <input id="target-pace-seconds" type="number" min="0" max="59" step="1" value="0" />
+          </div>
+        </div>
+
+        <div class="result-card">
+          <p class="result-label">Race result</p>
+          <p id="race-output" class="result-value">5:00 min/km</p>
+          <p id="race-output-detail" class="result-detail">Required pace for 5km in 25:00.</p>
+        </div>
+      </div>
     </section>
   </main>
 
-  <script src="script.js?v=20260212-1"></script>
+  <script src="script.js?v=20260212-2"></script>
 </body>
 </html>

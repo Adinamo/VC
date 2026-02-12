@@ -83,6 +83,9 @@ body {
 }
 
 .panel {
+  --theme-accent: #22d3ee;
+  --theme-accent-2: #f97316;
+  --theme-highlight: #d1fae5;
   background: linear-gradient(155deg, var(--panel) 0%, var(--panel-soft) 100%);
   border: 1px solid rgba(153, 170, 203, 0.2);
   border-radius: 24px;
@@ -93,7 +96,7 @@ body {
 
 .tabs {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   margin-bottom: 14px;
 }
@@ -112,12 +115,12 @@ body {
 
 .tab:hover {
   transform: translateY(-1px);
-  border-color: rgba(34, 211, 238, 0.65);
+  border-color: var(--theme-accent);
 }
 
 .tab.active {
   border-color: transparent;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  background: linear-gradient(135deg, var(--theme-accent), var(--theme-accent-2));
   color: #06101d;
 }
 
@@ -147,11 +150,13 @@ label {
 }
 
 input[type="number"],
-input[type="range"] {
+input[type="range"],
+select {
   width: 100%;
 }
 
-input[type="number"] {
+input[type="number"],
+select {
   background: rgba(8, 18, 34, 0.8);
   color: var(--text);
   border: 1px solid rgba(153, 170, 203, 0.35);
@@ -162,7 +167,7 @@ input[type="number"] {
 }
 
 input[type="range"] {
-  accent-color: var(--ok);
+  accent-color: var(--theme-accent);
 }
 
 .pace-group {
@@ -189,7 +194,7 @@ input[type="range"] {
   font-family: "Space Mono", monospace;
   font-size: clamp(1.8rem, 6vw, 2.8rem);
   font-weight: 700;
-  color: #d1fae5;
+  color: var(--theme-highlight);
 }
 
 .result-detail {
@@ -214,7 +219,29 @@ input[type="range"] {
     padding: 14px;
   }
 
+  .tabs {
+    grid-template-columns: 1fr;
+  }
+
   .pace-group {
     grid-template-columns: 1fr;
   }
+}
+
+.panel[data-theme="converter"] {
+  --theme-accent: #22d3ee;
+  --theme-accent-2: #f97316;
+  --theme-highlight: #d1fae5;
+}
+
+.panel[data-theme="distance"] {
+  --theme-accent: #84cc16;
+  --theme-accent-2: #06b6d4;
+  --theme-highlight: #ecfccb;
+}
+
+.panel[data-theme="race"] {
+  --theme-accent: #f43f5e;
+  --theme-accent-2: #f59e0b;
+  --theme-highlight: #ffe4e6;
 }
