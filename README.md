@@ -1,14 +1,15 @@
-﻿# Mini Focus Board
+﻿# RunLab Calculator
 
-Proiect mic static pentru test in Git.
+Modern running calculator with two features:
 
-## Ruleaza local
+1. Speed converter: `km/h` -> `min/km`.
+2. Distance time estimator: `distance (0-1000m)` + `pace (min/km)` -> expected time.
 
-1. Deschide `index.html` in browser.
-2. Adauga task-uri si vezi persistenta in `localStorage`.
+## Local run
 
-## Structura
+Open `index.html` in your browser.
 
-- `index.html`
-- `style.css`
-- `script.js`
+## Example
+
+- `10 km/h` => `6:00 min/km`
+- `330m` at `4:00 min/km` => `1:19`

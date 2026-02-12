@@ -1,29 +1,68 @@
 ﻿<!doctype html>
-<html lang="ro">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mini Focus Board</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>RunLab Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="app">
-    <section class="hero">
-      <p class="eyebrow">proiect mic pentru git</p>
-      <h1>Mini Focus Board</h1>
-      <p class="subtitle">Adauga task-uri, marcheaza ce ai terminat si salveaza local.</p>
-    </section>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
 
-    <section class="card">
-      <form id="task-form" class="task-form">
-        <input id="task-input" type="text" placeholder="Ex: Push primul commit" maxlength="120" required />
-        <button type="submit">Adauga</button>
-      </form>
-      <ul id="task-list" class="task-list"></ul>
-      <p id="empty-state" class="empty-state">Nu ai task-uri inca.</p>
+  <main class="app">
+    <header class="hero">
+      <p class="kicker">running toolkit</p>
+      <h1>RunLab Calculator</h1>
+      <p>Convert speed and estimate split times in one clean interface.</p>
+    </header>
+
+    <section class="panel">
+      <div class="tabs" role="tablist" aria-label="Calculator tabs">
+        <button class="tab active" data-tab="converter" role="tab" aria-selected="true">Speed Converter</button>
+        <button class="tab" data-tab="distance" role="tab" aria-selected="false">Distance Time</button>
+      </div>
+
+      <div id="converter" class="tab-panel active" role="tabpanel">
+        <div class="field">
+          <label for="speed-input">Speed (km/h)</label>
+          <input id="speed-input" type="number" min="0.1" step="0.1" value="10" />
+        </div>
+
+        <div class="result-card">
+          <p class="result-label">Equivalent pace</p>
+          <p id="pace-output" class="result-value">6:00 min/km</p>
+          <p id="pace-output-detail" class="result-detail">6.00 min/km</p>
+        </div>
+      </div>
+
+      <div id="distance" class="tab-panel" role="tabpanel" hidden>
+        <div class="field">
+          <label for="distance-range">Distance (meters): <span id="distance-value">330</span>m</label>
+          <input id="distance-range" type="range" min="0" max="1000" step="10" value="330" />
+          <input id="distance-input" type="number" min="0" max="1000" step="10" value="330" />
+        </div>
+
+        <div class="pace-group">
+          <div class="field">
+            <label for="pace-minutes">Pace min/km (minutes)</label>
+            <input id="pace-minutes" type="number" min="0" max="30" step="1" value="4" />
+          </div>
+          <div class="field">
+            <label for="pace-seconds">Pace min/km (seconds)</label>
+            <input id="pace-seconds" type="number" min="0" max="59" step="1" value="0" />
+          </div>
+        </div>
+
+        <div class="result-card">
+          <p class="result-label">Estimated time</p>
+          <p id="time-output" class="result-value">1:19</p>
+          <p id="time-output-detail" class="result-detail">for 330m at 4:00 min/km</p>
+        </div>
+      </div>
     </section>
   </main>
 
