@@ -1,0 +1,553 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QA Release Flow</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-head">
+          <span class="brand-logo" aria-hidden="true">RF</span>
+          <h1>QA Release Flow</h1>
+        </div>
+      </div>
+      <nav class="tab-nav" aria-label="Main navigation">
+        <button class="tab-link active" data-tab="dashboard">Dashboard</button>
+        <button class="tab-link" data-tab="projects">Projects</button>
+        <button class="tab-link" data-tab="submissions">Submissions</button>
+        <button class="tab-link" data-tab="platforms">Platforms</button>
+        <button class="tab-link" data-tab="performance">Performance & Reporting</button>
+        <button class="tab-link" data-tab="settings">Settings</button>
+      </nav>
+      <div class="clock-card">
+        <span>Live Time</span>
+        <strong id="liveClock">--:--:--</strong>
+        <small id="liveDate">--</small>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <section class="tab-panel active" id="dashboard">
+        <header class="section-header">
+          <h2>Dashboard</h2>
+          <p id="statsScopeLabel">Current scope: this month submissions overview.</p>
+        </header>
+
+        <div class="filter-drawer-backdrop hidden" id="dashboardFilterBackdrop"></div>
+        <aside class="filter-drawer hidden" id="dashboardFilterDrawer" aria-hidden="true">
+          <div class="filter-drawer-header">
+            <h3>Filters</h3>
+            <div class="filter-drawer-actions">
+              <button class="btn-ghost" type="button" id="dashboardDrawerClearBtn">Clear All</button>
+              <button class="btn-ghost" type="button" id="dashboardDrawerCloseBtn">Close</button>
+            </div>
+          </div>
+          <div class="filter-tabs" id="dashboardFilterTabs">
+            <button class="filter-tab-btn active" type="button" data-filter-tab="quick">Quick Filters</button>
+            <button class="filter-tab-btn" type="button" data-filter-tab="date">Date Range</button>
+            <button class="filter-tab-btn" type="button" data-filter-tab="custom">Custom</button>
+          </div>
+          <div class="filter-tab-panel active" data-filter-panel="quick">
+            <div class="field">
+              <label for="dashboardFilterSearch">Search Filter</label>
+              <input id="dashboardFilterSearch" type="text" placeholder="Search platforms, statuses or types..." />
+            </div>
+            <div class="drawer-filter-group" data-filter-group>
+              <span class="toggle-label">Platforms</span>
+              <div class="toggle-group" id="dashboardPlatformToggles"></div>
+            </div>
+            <div class="drawer-filter-group" data-filter-group>
+              <span class="toggle-label">Status</span>
+              <div class="toggle-group" id="dashboardStatusToggles"></div>
+            </div>
+            <div class="drawer-filter-group" data-filter-group>
+              <span class="toggle-label">Project Type</span>
+              <div class="toggle-group" id="dashboardWorkTypeToggles"></div>
+            </div>
+          </div>
+          <div class="filter-tab-panel" data-filter-panel="date">
+            <div class="field">
+              <label for="dashboardTimePreset">Time Filter</label>
+              <select id="dashboardTimePreset">
+                <option value="all">All Time</option>
+                <option value="this_month">This Month</option>
+                <option value="last_30_days">Last 30 Days</option>
+                <option value="custom">Custom Range</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="dashboardFromDate">From</label>
+              <input id="dashboardFromDate" type="date" />
+            </div>
+            <div class="field">
+              <label for="dashboardToDate">To</label>
+              <input id="dashboardToDate" type="date" />
+            </div>
+            <div class="actions">
+              <button class="btn-primary" type="button" id="dashboardApplyRangeBtn">Apply Date Range</button>
+            </div>
+          </div>
+          <div class="filter-tab-panel" data-filter-panel="custom">
+            <div class="drawer-note">Quick selection helpers for large boards.</div>
+            <div class="drawer-actions-grid">
+              <button class="btn-ghost" type="button" id="dashboardPresetInProgressBtn">Only In Progress</button>
+              <button class="btn-ghost" type="button" id="dashboardPresetPassedBtn">Only Passed</button>
+              <button class="btn-ghost" type="button" id="dashboardPresetFailedBtn">Only Failed</button>
+              <button class="btn-ghost" type="button" id="dashboardPresetThisMonthBtn">This Month + All</button>
+            </div>
+          </div>
+        </aside>
+
+        <div class="stats-grid" id="statsGrid"></div>
+        <div class="card dashboard-toolbar-card">
+          <div class="dashboard-toolbar">
+            <div class="dashboard-toolbar-actions">
+              <button class="btn-ghost dashboard-filter-open-btn" type="button" id="dashboardFiltersBtn">Open Filters</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title-row">
+            <h3>Submission Timeline</h3>
+            <div class="timeline-controls">
+              <div class="timeline-nav-group">
+                <button class="btn-ghost timeline-nav-btn" id="timelinePrevBtn" type="button">Prev</button>
+                <button class="btn-ghost timeline-nav-btn timeline-today-btn" id="timelineTodayBtn" type="button">Today</button>
+                <button class="btn-ghost timeline-nav-btn" id="timelineNextBtn" type="button">Next</button>
+              </div>
+              <div class="timeline-preset-group">
+                <div class="toggle-group" id="timelineQuickPresetToggles"></div>
+              </div>
+              <div class="timeline-scale-group">
+                <div class="toggle-group" id="timelineScaleToggles"></div>
+              </div>
+              <span class="badge" id="timelineCount">0 items</span>
+            </div>
+          </div>
+          <div id="timelineEmpty" class="empty-state hidden">No submission records for current filters.</div>
+          <div id="timelineRangeLabel" class="timeline-range-label">-</div>
+          <div class="calendar-shell" id="calendarShell">
+            <div class="calendar-grid-header" id="calendarGridHeader"></div>
+            <div class="calendar-rows" id="calendarRows"></div>
+          </div>
+        </div>
+
+      </section>
+
+      <section class="tab-panel" id="projects">
+        <header class="section-header">
+          <h2>Projects</h2>
+          <p>Create core project profiles. Submission dates/statuses are managed in the Submissions tab.</p>
+        </header>
+
+        <div class="section-inline-actions">
+          <button type="button" class="btn-ghost btn-add-inline" id="toggleProjectFormBtn">+ Add New Project</button>
+        </div>
+
+        <div class="card form-card" id="projectFormCard" hidden>
+          <form id="projectForm" class="form-grid">
+            <input type="hidden" id="projectId" />
+            <div class="field">
+              <label for="projectName">Project Name</label>
+              <input id="projectName" type="text" required />
+            </div>
+            <div class="field">
+              <label for="projectStudio">Development Studio</label>
+              <input id="projectStudio" type="text" list="devStudioSuggestions" placeholder="Select or type studio" required />
+              <datalist id="devStudioSuggestions">
+                <option value="NorthForge Studio"></option>
+                <option value="Apex Drift Labs"></option>
+                <option value="Valiant Byte"></option>
+                <option value="Urban Arc Games"></option>
+                <option value="GreenLoop Interactive"></option>
+                <option value="Prism Reactor"></option>
+              </datalist>
+            </div>
+            <div class="field">
+              <label for="projectQaStudio">QA Studio</label>
+              <input id="projectQaStudio" type="text" list="qaStudioSuggestions" placeholder="Optional QA owner" />
+              <datalist id="qaStudioSuggestions">
+                <option value="Internal QA"></option>
+                <option value="HQ QA"></option>
+                <option value="External QA"></option>
+                <option value="Partner QA"></option>
+              </datalist>
+            </div>
+            <div class="field">
+              <label for="projectStage">Project Stage</label>
+              <select id="projectStage" required>
+                <option value="">Select stage...</option>
+                <option value="creation">Creation</option>
+                <option value="production">Production</option>
+                <option value="qa_validation">QA Validation</option>
+                <option value="submission_ready">Submission Ready</option>
+                <option value="live_ops">LiveOps / Updates</option>
+                <option value="maintenance">Maintenance</option>
+              </select>
+            </div>
+            <div class="actions full-width">
+              <button type="submit" class="btn-primary">Save Project</button>
+              <button type="button" class="btn-ghost" id="projectResetBtn">Reset</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Project List</h3>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Dev Studio</th>
+                  <th>QA Studio</th>
+                  <th>Stage</th>
+                  <th>Flow</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="projectsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="submissions">
+        <header class="section-header">
+          <h2>Submissions</h2>
+          <p>Add submission batches per project and manage platform-level timeline/status.</p>
+        </header>
+
+        <div class="section-inline-actions">
+          <button type="button" class="btn-ghost btn-add-inline" id="toggleSubmissionFormBtn">+ Add New Submission</button>
+        </div>
+
+        <div class="card form-card" id="submissionFormCard" hidden>
+          <form id="submissionForm" class="form-grid">
+            <input type="hidden" id="submissionId" />
+            <div class="field">
+              <label for="submissionProject">Project</label>
+              <select id="submissionProject" required></select>
+            </div>
+            <div class="field">
+              <label for="submissionName">Submission Name</label>
+              <input id="submissionName" type="text" placeholder="v1.0 launch package" required />
+            </div>
+            <div class="field">
+              <label for="submissionStatus">Global Status</label>
+              <select id="submissionStatus" required></select>
+            </div>
+            <div class="field">
+              <label for="submissionMainDate">Main Submission Date</label>
+              <input id="submissionMainDate" type="date" />
+            </div>
+            <div class="field">
+              <label for="submissionMainReleaseDate">Main Release Date</label>
+              <input id="submissionMainReleaseDate" type="date" />
+            </div>
+            <div class="field full-width">
+              <p class="form-helper-text">These are default dates. Each platform row can keep or override them.</p>
+            </div>
+            <div class="field inline-field">
+              <label for="submissionIsHotfix">Hotfix Submission</label>
+              <input id="submissionIsHotfix" type="checkbox" />
+            </div>
+            <div class="field full-width" id="submissionHotfixReasonField">
+              <label for="submissionHotfixReason">Hotfix Reason</label>
+              <textarea id="submissionHotfixReason" rows="2" placeholder="Optional hotfix reason"></textarea>
+            </div>
+            <div class="field" id="submissionHotfixLabelField">
+              <label for="submissionHotfixLabel">Hotfix Label</label>
+              <select id="submissionHotfixLabel">
+                <option value="none">None</option>
+                <option value="QA">QA</option>
+                <option value="NotQA">NotQA</option>
+              </select>
+            </div>
+            <div class="field full-width" id="failedReasonField">
+              <label for="submissionFailedReason">Failed Reason</label>
+              <textarea id="submissionFailedReason" rows="2" placeholder="Required when status is failed"></textarea>
+            </div>
+            <div class="field" id="failedLabelField">
+              <label for="submissionFailedLabel">Failed Label</label>
+              <select id="submissionFailedLabel">
+                <option value="none">None</option>
+                <option value="QA">QA</option>
+                <option value="NotQA">NotQA</option>
+              </select>
+            </div>
+
+            <div class="field full-width">
+              <div class="platform-rows-header">
+                <h4>Platform Entries</h4>
+                <button type="button" class="btn-ghost" id="addPlatformEntryBtn">+ Add Platform</button>
+              </div>
+              <div class="platform-row-head">
+                <span>Platform</span>
+                <span>Version</span>
+                <span>Submission Date</span>
+                <span>Release Date</span>
+                <span>Status</span>
+                <span>Action</span>
+              </div>
+              <div id="platformEntries"></div>
+            </div>
+
+            <div class="actions full-width">
+              <button type="submit" class="btn-primary">Save Submission</button>
+              <button type="button" class="btn-ghost" id="submissionResetBtn">Reset</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Submission List</h3>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Submission</th>
+                  <th>Project</th>
+                  <th>Status</th>
+                  <th>Platforms</th>
+                  <th>QA Label</th>
+                  <th>Reason</th>
+                  <th>Updated</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="submissionsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="platforms">
+        <header class="section-header">
+          <h2>Platforms Catalog</h2>
+          <p>Manage platform labels, icons, and colors once, then reuse them for project submissions.</p>
+        </header>
+
+        <div class="section-inline-actions">
+          <button type="button" class="btn-ghost btn-add-inline" id="togglePlatformFormBtn">+ Add Platform</button>
+        </div>
+
+        <div class="card form-card" id="platformFormCard" hidden>
+          <form id="platformForm" class="inline-form">
+            <input type="hidden" id="platformId" />
+            <div class="field">
+              <label for="platformName">Platform Name</label>
+              <input id="platformName" type="text" placeholder="iOS, Android, PS5..." required />
+            </div>
+            <div class="field">
+              <label for="platformIcon">Platform Icon</label>
+              <input id="platformIcon" type="text" placeholder="Emoji or short icon" maxlength="8" />
+            </div>
+            <div class="field">
+              <label for="platformColor">Platform Color</label>
+              <input id="platformColor" type="color" value="#0f766e" />
+            </div>
+            <div class="actions">
+              <button type="submit" class="btn-primary">Save Platform</button>
+              <button type="button" class="btn-ghost" id="platformResetBtn">Reset</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Available Platforms</h3>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Label</th>
+                  <th>Used In Submissions</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="platformsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="performance">
+        <header class="section-header">
+          <h2>Performance & Reporting</h2>
+          <p>Monthly pass-rate evolution, hotfix/fail trends, and export-ready reporting.</p>
+        </header>
+
+        <div class="card performance-toolbar">
+          <div class="field">
+            <label for="performanceTimeRange">Time Window</label>
+            <select id="performanceTimeRange">
+              <option value="6">Last 6 months</option>
+              <option value="12">Last 12 months</option>
+              <option value="24">Last 24 months</option>
+              <option value="all">All time</option>
+            </select>
+          </div>
+          <div class="toggle-wrap performance-scope-wrap">
+            <span class="toggle-label">Grouping</span>
+            <div class="toggle-group" id="performanceScopeToggles">
+              <button type="button" class="toggle-btn active" data-performance-scope="project" aria-pressed="true">Project</button>
+              <button type="button" class="toggle-btn inactive" data-performance-scope="platform" aria-pressed="false">Platform</button>
+            </div>
+          </div>
+          <div class="actions">
+            <button type="button" class="btn-ghost" id="performanceRefreshBtn">Refresh</button>
+            <button type="button" class="btn-primary" id="performanceGenerateReportBtn">Generate Report</button>
+          </div>
+        </div>
+
+        <div class="performance-grid">
+          <article class="card">
+            <h3>Pass Rate Trend by Month</h3>
+            <div id="performancePassRateTrend" class="performance-trend-list"></div>
+          </article>
+
+          <article class="card">
+            <h3 id="performanceHotfixTitle">Projects With Most Hotfixes</h3>
+            <div id="performanceHotfixProjects" class="performance-rank-list"></div>
+          </article>
+
+          <article class="card">
+            <h3 id="performanceOutcomeTitle">Projects by Outcomes</h3>
+            <div class="performance-outcome-grid">
+              <div>
+                <h4 id="performancePassedTitle">Most Passed</h4>
+                <div id="performanceTopPassedProjects" class="performance-rank-list"></div>
+              </div>
+              <div>
+                <h4 id="performanceFailedTitle">Most Failed</h4>
+                <div id="performanceTopFailedProjects" class="performance-rank-list"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3 id="performanceFailureTitle">Failure Reasons</h3>
+            <div id="performanceFailureReasons" class="performance-failure-list"></div>
+          </article>
+        </div>
+
+        <div class="card">
+          <div class="card-title-row">
+            <h3>Report Output</h3>
+            <button type="button" class="btn-ghost" id="performanceCopyReportBtn">Copy Report</button>
+          </div>
+          <p id="performanceReportMeta">Generate a report snapshot for PM and HQ sharing.</p>
+          <textarea id="performanceReportOutput" rows="12" readonly placeholder="Report will appear here..."></textarea>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="settings">
+        <header class="section-header">
+          <h2>Settings</h2>
+          <p>Customize submission statuses and visual colors used across dashboard and timeline.</p>
+        </header>
+
+        <div class="section-inline-actions">
+          <button type="button" class="btn-ghost btn-add-inline" id="toggleStatusFormBtn">+ Add Status</button>
+        </div>
+
+        <div class="card form-card" id="statusFormCard" hidden>
+          <form id="statusForm" class="inline-form">
+            <input type="hidden" id="statusId" />
+            <div class="field">
+              <label for="statusName">Status Name</label>
+              <input id="statusName" type="text" placeholder="To Do, New, Blocked..." required />
+            </div>
+            <div class="field">
+              <label for="statusColor">Status Color</label>
+              <input id="statusColor" type="color" value="#2563eb" />
+            </div>
+            <div class="actions">
+              <button type="submit" class="btn-primary">Save Status</button>
+              <button type="button" class="btn-ghost" id="statusResetBtn">Reset</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Status Catalog</h3>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Used In Submissions</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="statusesTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="submissionDetailBackdrop"></div>
+  <section class="submission-modal hidden" id="submissionDetailModal" aria-hidden="true">
+    <header class="submission-modal-header">
+      <div>
+        <h3 id="submissionDetailTitle">Submission Details</h3>
+        <p id="submissionDetailSubtitle"></p>
+      </div>
+      <button type="button" class="btn-ghost" id="submissionDetailCloseBtn">Close</button>
+    </header>
+    <div class="submission-modal-body" id="submissionDetailBody"></div>
+    <footer class="submission-modal-footer">
+      <button type="button" class="btn-primary" id="submissionDetailOpenEditorBtn">Edit In Submissions</button>
+    </footer>
+  </section>
+
+  <div class="modal-backdrop hidden" id="statsDetailBackdrop"></div>
+  <section class="submission-modal hidden" id="statsDetailModal" aria-hidden="true">
+    <header class="submission-modal-header">
+      <div>
+        <h3 id="statsDetailTitle">Statistics Details</h3>
+        <p id="statsDetailSubtitle"></p>
+      </div>
+      <button type="button" class="btn-ghost" id="statsDetailCloseBtn">Close</button>
+    </header>
+    <div class="submission-modal-body" id="statsDetailBody"></div>
+  </section>
+
+  <div class="modal-backdrop hidden" id="projectHistoryBackdrop"></div>
+  <section class="submission-modal hidden" id="projectHistoryModal" aria-hidden="true">
+    <header class="submission-modal-header">
+      <div>
+        <h3 id="projectHistoryTitle">Project History</h3>
+        <p id="projectHistorySubtitle"></p>
+      </div>
+      <button type="button" class="btn-ghost" id="projectHistoryCloseBtn">Close</button>
+    </header>
+    <div class="submission-modal-body" id="projectHistoryBody"></div>
+  </section>
+
+  <template id="platformRowTemplate">
+    <div class="platform-row">
+      <select class="entry-platform" required></select>
+      <input class="entry-version" type="text" placeholder="Version" required />
+      <input class="entry-sub-date" type="date" aria-label="Submission Date" title="Submission Date" />
+      <input class="entry-rel-date" type="date" aria-label="Release Date" title="Release Date" />
+      <select class="entry-status"></select>
+      <button type="button" class="btn-danger remove-platform-entry">Remove</button>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
